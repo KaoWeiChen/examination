@@ -1,18 +1,27 @@
-#! /usr/bin/env python3
+#! /usr/bin/env python3 
 
-def combination(n,r):
-    if r < 0 or r>n:
-        return 0
-    elif  r ==1 :
-        return n
-    elif r == n :
-        return 1
+from functools import reduce
 
-    if r > n-r:
-        r = n -r
-    if r == 0 or  n<= 1 : 
-        return 1
-    return combination(n-1,r) + combination(n-1,r-1)
+import operator
 
-print (combination(990,33))
 
+class Solution:
+    def generate(self, numRows):        
+        def bin_coefficient(n, k):
+            # @return c(n, k)
+            if k == 0 or n==k:
+                return 1
+            elif k == 1 :
+                return n
+            return pascal_triangle[n-1][k]+ pascal_triangle[n-1][k-1]
+                                                    
+        pascal_triangle =[]
+        for n in range(numRows):
+            temRow=[]
+            for k in range(n+1):
+                temRow.append(bin_coefficient(n, k))
+            pascal_triangle.append(temRow)
+
+        return pascal_triangle
+
+print (Solution().generate(991)[990][33])
